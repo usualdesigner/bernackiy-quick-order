@@ -1,15 +1,29 @@
 (function () {
     jQuery(document).ready(function ($) {
 
-            var expires = new Date();
-            expires.setMinutes(expires.getMinutes() + 30);
+            if (!$.cookie('bernackiy-quick-order-expired-at', Number)) {
+                if (!$.cookie('bernackiy-quick-order-next-at', Number)) {
+                    var expires = new Date();
+                    var next = new Date();
+                    expires.setMinutes(expires.getMinutes() + 30);
+                    next.setHours(next.getHours() + 24);
+                    $.cookie('bernackiy-quick-order-expired-at', expires.getTime(), {expires: expires});
+                    $.cookie('bernackiy-quick-order-next-at', next.getTime(), {expires: next});
+                } else {
+                    var expires = new Date();
+                    expires.setSeconds(expires.getSeconds() - 1);
+                }
+            } else {
+                var expires = $.cookie('bernackiy-quick-order-expired-at', Number);
+            }
 
-            if (!$.cookie('bernackiy-quick-order', Number))
-                $.cookie('bernackiy-quick-order', true, {expires: expires});
+            $.each($('.bernackiy-quick-order-countdown'), function (index, value) {
 
-            //console.log(expires.getTime());
-            //
-            //console.log($.cookie('bernackiy-quick-order', Number));
+                $(value).countdown(expires, function (event) {
+                    $(this).html(event.strftime('%M:%S'));
+                });
+
+            });
 
 
             //var unacceptable_watching_time = 60 * 1000;
@@ -22,6 +36,5 @@
             //        return confirm("Do you really want to close?");
             //};
         }
-    )
-    ;
+    );
 }());

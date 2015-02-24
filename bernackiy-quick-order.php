@@ -9,13 +9,18 @@
 wp_enqueue_script('jquery');
 
 wp_enqueue_script('jquery_cookie', plugins_url('assets/jquery-cookie/src/jquery.cookie.js', __FILE__));
+wp_enqueue_script('jquery_countdown', plugins_url('assets/jquery-countdown/jquery.countdown.min.js', __FILE__));
 wp_enqueue_script('bernackiy_quick_order_js', plugins_url('assets/bernackiy-quick-order.js', __FILE__));
+
+wp_enqueue_style('bernackiy_quick_order_css', plugins_url('assets/bernackiy-quick-order.css', __FILE__));
 
 class BernackiyQuickOrderPlugin
 {
     function init($attributes)
     {
-        //
+        $return = self::render('countdown');
+
+        return $return;
     }
 
     public static function render($view)
@@ -27,3 +32,5 @@ class BernackiyQuickOrderPlugin
         return $output;
     }
 }
+
+add_shortcode('bernackiy-quick-order', array('BernackiyQuickOrderPlugin', 'init'));

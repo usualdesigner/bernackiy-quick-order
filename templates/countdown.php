@@ -1,0 +1,1 @@
+Вы можете получить скидку в течении <span class="bernackiy-quick-order-countdown"></span>
